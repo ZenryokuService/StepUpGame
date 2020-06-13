@@ -17,6 +17,7 @@ import zenryokuservice.main.game.stepup.TextRpgGame;
  */
 public class GameMain {
 	public static void main(String[] args) {
+		// ゲームクラス
 		TextRpgGame main = new TextRpgGame();
 		// 初期処理
 		main.init();
@@ -26,10 +27,11 @@ public class GameMain {
 			if ("bye".equals(in)) {
 				break;
 			}
-			// 画面の更新
-			main.update();
-			// 画面の描画
-			main.render();
+			// データの更新
+			if (main.update(in)) {
+				// 画面の描画
+				main.render();
+			}
 		}
 	}
 }

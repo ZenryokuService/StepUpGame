@@ -18,11 +18,20 @@ public class Monster {
 	private int hp;
 	/** MP */
 	private int mp;
+	/** Level */
+	private int level;
 
 	/** コンストラクタ */
 	public Monster(int hp, int mp) {
 		this.hp = hp;
 		this.mp = mp;
+	}
+
+	/** コンストラクタ */
+	public Monster(int hp, int mp, int level) {
+		this.hp = hp;
+		this.mp = mp;
+		this.level = level;
 	}
 
 	/**
@@ -49,4 +58,19 @@ public class Monster {
 	public void setMp(int mp) {
 		this.mp = mp;
 	}
+
+	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 }

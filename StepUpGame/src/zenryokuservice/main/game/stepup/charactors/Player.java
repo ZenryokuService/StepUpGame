@@ -18,12 +18,23 @@ public class Player {
 	private int hp;
 	/** MP */
 	private int mp;
+	/** Level */
+	private int level;
 
 	/** コンストラクタ */
 	public Player(int hp, int mp) {
 		this.hp = hp;
 		this.mp = mp;
 	}
+
+	/** コンストラクタ */
+	public Player(int hp, int mp, int level) {
+		this.hp = hp;
+		this.mp = mp;
+		this.level = level;
+	}
+
+	
 	/**
 	 * @return the hp
 	 */

@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import zenryokuservice.main.game.stepup.charactors.Monster;
 import zenryokuservice.main.game.stepup.charactors.Player;
+import zenryokuservice.main.game.util.CheckerUtils;
 
 /**
  * @author takunoji
@@ -29,8 +30,8 @@ public class TextRpgGame {
 	/** 初期表示を行う */
 	public void init() {
 		System.out.println("たくのじが現れた！");
-		player = new Player(20, 10);
-		monster = new Monster(10, 5);
+		player = new Player(20, 10, 1);
+		monster = new Monster(10, 5, 1);
 		viewStatus(player.getHp(), player.getMp(), monster.getHp(), monster.getMp());
 		
 		scan = new Scanner(System.in);
@@ -42,8 +43,12 @@ public class TextRpgGame {
 	}
 
 	/** 入力後に行う処理 */
-	public void update() {
-		
+	public boolean update(String input) {
+		if (CheckerUtils.isNumber(input, CheckerUtils.REG_1_TO_3) == false) {
+			System.out.println("1-3を入力してください。: " + input);
+			return false;
+		}
+		return true;
 	}
 
 	/** 画面を更新する */
