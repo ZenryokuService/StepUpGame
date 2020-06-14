@@ -205,25 +205,12 @@ import zenryokuservice.main.game.stepup.arms.Armors;
 import zenryokuservice.main.game.stepup.arms.Wepons;
 
 /**
+ * プレーヤーを表現区するクラス。
  * @author takunoji
  *
  * 2020/06/11
  */
-public class Player {
-	/** HP */
-	private int hp;
-	/** MP */
-	private int mp;
-	/** Level */
-	private int level;
-	/** 攻撃力 */
-	private int atack;
-	/** 防御力 */
-	private int defence;
-	/** 武器 */
-	private Wepons wepons;
-	/** 防具 */
-	private Armors armor;
+public class Player extends Charactor {
 
 	/** コンストラクタ */
 	public Player(int hp, int mp) {
@@ -232,39 +219,36 @@ public class Player {
 	}
 
 	/** コンストラクタ */
-	public Player(int hp, int mp, int level) {
+	public Player(int hp, int mp, int level, String name) {
 		this.hp = hp;
 		this.mp = mp;
 		this.level = level;
+		this.name = name;
+		// 装備を行う
+		setArms();
 	}
 
-	public int atack() {
+	/**
+	 * 装備を行う。
+	 */
+	private void setArms() {
+		this.wepons = new Wepons("ひのきのぼう", 5);
+		this.armor = new Armors("ぬののふく", 5);
+	}
+	/**
+	 * 攻撃コマンドのメソッド。
+	 * 武器の攻撃力を返却する。
+	 * @return 武器の攻撃力
+	 */
+	@Override
+	public int attack() {
 		this.atack = wepons.getAttackPoint();
 		return this.atack;
 	}
 	
-	/**
-	 * @return the hp
-	 */
-	public int getHp() {
-		return hp;
-	}
-	/**
-	 * @param hp the hp to set
-	 */
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-	/**
-	 * @return the mp
-	 */
-	public int getMp() {
-		return mp;
-	}
-	/**
-	 * @param mp the mp to set
-	 */
-	public void setMp(int mp) {
-		this.mp = mp;
+	@Override
+	public int deffence() {
+		this.defence = armor.getDeffencePoint();
+		return this.defence;
 	}
 }

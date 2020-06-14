@@ -201,19 +201,16 @@
  * limitations under the License.
  */package zenryokuservice.main.game.stepup.charactors;
 
+import zenryokuservice.main.game.stepup.arms.Armors;
+import zenryokuservice.main.game.stepup.arms.Wepons;
+
 /**
+ * モンスターを表現するクラス。
+ * 
  * @author takunoji
- *
  * 2020/06/11
  */
-public class Monster {
-	/** HP */
-	private int hp;
-	/** MP */
-	private int mp;
-	/** Level */
-	private int level;
-
+public class Monster extends Charactor {
 	/** コンストラクタ */
 	public Monster(int hp, int mp) {
 		this.hp = hp;
@@ -221,49 +218,30 @@ public class Monster {
 	}
 
 	/** コンストラクタ */
-	public Monster(int hp, int mp, int level) {
+	public Monster(int hp, int mp, int level, String name) {
 		this.hp = hp;
 		this.mp = mp;
 		this.level = level;
+		this.name = name;
+		this.wepons = new Wepons("自分の顔", 3);
+		this.armor = new Armors("自分の体", 3);
 	}
 
-	/**
-	 * @return the hp
-	 */
-	public int getHp() {
-		return hp;
-	}
-	/**
-	 * @param hp the hp to set
-	 */
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-	/**
-	 * @return the mp
-	 */
-	public int getMp() {
-		return mp;
-	}
-	/**
-	 * @param mp the mp to set
-	 */
-	public void setMp(int mp) {
-		this.mp = mp;
+	public void say() {
+		System.out.println("「わるいごはいねがぁ？」");
 	}
 
-	/**
-	 * @return the level
-	 */
-	public int getLevel() {
-		return level;
+	public void lastMessage() {
+		System.out.println("「なかなかに、なかなか。。。」");
 	}
 
-	/**
-	 * @param level the level to set
-	 */
-	public void setLevel(int level) {
-		this.level = level;
+	@Override
+	public int attack() {
+		return 1;
 	}
-	
+
+	@Override
+	public int deffence() {
+		return 0;
+	}
 }

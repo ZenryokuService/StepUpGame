@@ -213,6 +213,13 @@ import zenryokuservice.main.game.util.CheckerUtils;
  * 2020/06/11
  */
 public class TextRpgGame {
+	/** コマンド：たたかう */
+	private static final String ATTACK = "1";
+	/** コマンド：ぼうぎょ */
+	private static final String DEFFENCE = "2";
+	/** コマンド：にげる */
+	private static final String ESCAPE = "3";
+
 	/** 入力部品 */
 	private Scanner scan;
 	/** プレーヤー */
@@ -222,11 +229,11 @@ public class TextRpgGame {
 
 	/** 初期表示を行う */
 	public void init() {
-		System.out.println("たくのじが現れた！");
-		player = new Player(20, 10, 1);
-		monster = new Monster(10, 5, 1);
-		viewStatus(player.getHp(), player.getMp(), monster.getHp(), monster.getMp());
+		player = new Player(20, 10, 1, "プレーヤー");
+		monster = new Monster(10, 5, 1, "たくのじ");
 		
+		System.out.println(monster.getName() + "が現れた！");
+		monster.say();
 		scan = new Scanner(System.in);
 	}
 
@@ -242,13 +249,40 @@ public class TextRpgGame {
 			return false;
 		}
 		// コマンド実行後の計算
+		if (ATTACK.equals(input)) {
+			// モンスターへダメージ
+			int monsterDamage = this.calcAttack(player.attack(), monster.deffence(), player.getName());
+			int monsterResult = monster.getHp() + monsterDamage;
+			monster.setHp(monsterResult);
+		}
+		// モンスターの攻撃
+		int monsterAttack = this.calcAttack(player.deffence(), monster.attack(), monster.getName());
+		int playerResult = player.getHp() + monsterAttack;
+		player.setHp(playerResult);
 		
 		return true;
 	}
 
-	/** 画面を更新する */
-	public void render() {
-		
+	/** 
+	 * 画面を更新する。
+	 * @return ture: 終了 false: 続く
+	 */
+	public boolean render() {
+		if (monster.getHp() > 0) {
+			monster.say();
+		} else if (player.getHp() <= 0 ) {
+			System.out.print(player.getName() + "はたおれてしまった。");
+			return true;
+		} else {
+			monster.lastMessage();
+			System.out.print(monster.getName() + "をやっつけた。");
+			return true;
+		}
+		return false;
+	}
+
+	public void viewStatus() {
+		viewStatus(player.getHp(), player.getMp(), monster.getHp(), monster.getMp());
 	}
 
 	private void viewStatus(int playerHp, int playerMp, int monsterHp, int monsterMp) {
@@ -262,5 +296,17 @@ public class TextRpgGame {
 		System.out.println(line1);
 		System.out.println(line2);
 		System.out.println(line3);
+	}
+
+	private int calcAttack(int attack, int deffence, String attackerName) {
+		int result = 0;
+		System.out.println(attackerName + "のこうげき");
+		if (attack > deffence) {
+			result = deffence - attack;
+			System.out.println(Math.abs(result) + "のダメージ!");
+		} else {
+			System.out.println("こうげきを、はじいた!");
+		}
+		return attack > deffence ? deffence - attack : 0;
 	}
 }
