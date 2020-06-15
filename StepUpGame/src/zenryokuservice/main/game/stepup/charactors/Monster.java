@@ -228,11 +228,11 @@ public class Monster extends Charactor {
 	}
 
 	public void say() {
-		System.out.println("「わるいごはいねがぁ？」");
+		System.out.println(name + ": 「わるいごはいねがぁ？」");
 	}
 
 	public void lastMessage() {
-		System.out.println("「なかなかに、なかなか。。。」");
+		System.out.println(name + ": 「なかなかに、なかなか。。。」");
 	}
 
 	@Override

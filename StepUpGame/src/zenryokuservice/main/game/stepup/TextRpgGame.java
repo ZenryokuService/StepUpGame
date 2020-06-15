@@ -251,14 +251,16 @@ public class TextRpgGame {
 		// コマンド実行後の計算
 		if (ATTACK.equals(input)) {
 			// モンスターへダメージ
-			int monsterDamage = this.calcAttack(player.attack(), monster.deffence(), player.getName());
+			int monsterDamage = this.calcAttack(player.attack(), monster.deffence(), player.getName(), monster.getName());
 			int monsterResult = monster.getHp() + monsterDamage;
 			monster.setHp(monsterResult);
 		}
-		// モンスターの攻撃
-		int monsterAttack = this.calcAttack(player.deffence(), monster.attack(), monster.getName());
-		int playerResult = player.getHp() + monsterAttack;
-		player.setHp(playerResult);
+		if (monster.getHp() > 0) {
+			// モンスターの攻撃
+			int monsterAttack = this.calcAttack(player.deffence(), monster.attack(), monster.getName(), player.getName());
+			int playerResult = player.getHp() + monsterAttack;
+			player.setHp(playerResult);
+		}
 		
 		return true;
 	}
@@ -293,19 +295,21 @@ public class TextRpgGame {
 		line2 = line2.replace("A1", String.format("%02d", playerHp)).replace("B1", String.format("%02d", monsterHp));
 		line3 = line3.replace("A2", String.format("%02d", playerHp)).replace("B2", String.format("%02d", monsterHp));
 
+		System.out.println("================================");
 		System.out.println(line1);
 		System.out.println(line2);
 		System.out.println(line3);
+		System.out.println("================================");
 	}
 
-	private int calcAttack(int attack, int deffence, String attackerName) {
+	private int calcAttack(int attack, int deffence, String attackerName, String deffenderName) {
 		int result = 0;
 		System.out.println(attackerName + "のこうげき");
 		if (attack > deffence) {
 			result = deffence - attack;
-			System.out.println(Math.abs(result) + "のダメージ!");
+			System.out.println(deffenderName + "へ" + Math.abs(result) + "のダメージ!");
 		} else {
-			System.out.println("こうげきを、はじいた!");
+			System.out.println(deffenderName + "は、こうげきをはじいた!");
 		}
 		return attack > deffence ? deffence - attack : 0;
 	}
