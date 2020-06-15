@@ -199,31 +199,36 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package zenryokuservice.main.game;
-import zenryokuservice.main.game.stepup.TextRpgGame;
+ */
+package zenryokuservice.main.game.stepup.arms;
 
 /**
  * @author takunoji
  *
- * 2020/06/11
+ * 2020/06/13
  */
-public class GameMain {
-	public static void main(String[] args) {
-		// ゲームクラス
-		TextRpgGame main = new TextRpgGame();
-		// 初期処理
-		main.init();
-		while (true) {
-			main.viewStatus();
-			// 入力受付
-			String in = main.input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (main.update(in) && main.render()) {
-				break;
-			}
+public class Wepons {
+	/** 武器名 */
+	private String name;
+	/** 攻撃力 */
+	private int atackPoint;
+	
+	public Wepons(String name, int attackPoint) {
+		this.name = name;
+		try {
+			this.atackPoint = attackPoint;
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+			// エラー時はポイント0
+			this.atackPoint = 0;
 		}
+	}
+
+	public int getAttackPoint() {
+		return this.atackPoint;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

@@ -199,31 +199,148 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package zenryokuservice.main.game;
-import zenryokuservice.main.game.stepup.TextRpgGame;
+ */
+package zenryokuservice.main.game.stepup.charactors;
+
+import zenryokuservice.main.game.stepup.arms.Armors;
+import zenryokuservice.main.game.stepup.arms.Wepons;
 
 /**
+ * プレーヤー・モンスターなど、登場るキャラクターを表す
+ * 
  * @author takunoji
- *
- * 2020/06/11
+ * 2020/06/14
  */
-public class GameMain {
-	public static void main(String[] args) {
-		// ゲームクラス
-		TextRpgGame main = new TextRpgGame();
-		// 初期処理
-		main.init();
-		while (true) {
-			main.viewStatus();
-			// 入力受付
-			String in = main.input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (main.update(in) && main.render()) {
-				break;
-			}
-		}
+public abstract class Charactor {
+	/** 名前 */
+	protected String name;
+	/** HP */
+	protected int hp;
+	/** MP */
+	protected int mp;
+	/** Level */
+	protected int level;
+	/** 攻撃力 */
+	protected int atack;
+	/** 防御力 */
+	protected int defence;
+	/** 武器 */
+	protected Wepons wepons;
+	/** 防具 */
+	protected Armors armor;
+
+	/** 抽象メソッド: 攻撃 */
+	public abstract int attack();
+
+	/** 抽象メソッド: 防御 */
+	public abstract int deffence();
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the hp
+	 */
+	public int getHp() {
+		return hp;
+	}
+	/**
+	 * @param hp the hp to set
+	 */
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	/**
+	 * @return the mp
+	 */
+	public int getMp() {
+		return mp;
+	}
+	/**
+	 * @param mp the mp to set
+	 */
+	public void setMp(int mp) {
+		this.mp = mp;
+	}
+
+	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * @return the atack
+	 */
+	public int getAtack() {
+		return atack;
+	}
+
+	/**
+	 * @param atack the atack to set
+	 */
+	public void setAtack(int atack) {
+		this.atack = atack;
+	}
+
+	/**
+	 * @return the defence
+	 */
+	public int getDefence() {
+		return defence;
+	}
+
+	/**
+	 * @param defence the defence to set
+	 */
+	public void setDefence(int defence) {
+		this.defence = defence;
+	}
+
+	/**
+	 * @return the wepons
+	 */
+	public Wepons getWepons() {
+		return wepons;
+	}
+
+	/**
+	 * @param wepons the wepons to set
+	 */
+	public void setWepons(Wepons wepons) {
+		this.wepons = wepons;
+	}
+
+	/**
+	 * @return the armor
+	 */
+	public Armors getArmor() {
+		return armor;
+	}
+
+	/**
+	 * @param armor the armor to set
+	 */
+	public void setArmor(Armors armor) {
+		this.armor = armor;
 	}
 }

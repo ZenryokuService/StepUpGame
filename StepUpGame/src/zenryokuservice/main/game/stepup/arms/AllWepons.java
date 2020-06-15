@@ -199,30 +199,46 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package zenryokuservice.main.game;
-import zenryokuservice.main.game.stepup.TextRpgGame;
+ */
+package zenryokuservice.main.game.stepup.arms;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author takunoji
  *
- * 2020/06/11
+ * 2020/06/13
  */
-public class GameMain {
-	public static void main(String[] args) {
-		// ゲームクラス
-		TextRpgGame main = new TextRpgGame();
-		// 初期処理
-		main.init();
-		while (true) {
-			main.viewStatus();
-			// 入力受付
-			String in = main.input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (main.update(in) && main.render()) {
-				break;
+public class AllWepons {
+	public static final Map<String, Wepons> allWepons;
+
+	static {
+		allWepons = new HashMap<String, Wepons>();
+		Properties props = new Properties();
+		try {
+			props.load(new FileInputStream(new File("/wepons.properties")));
+		} catch(IOException e) {
+			e.printStackTrace();
+			// ファイル読み込みの失敗時はシステムエラーにする
+			System.exit(-1);
+		}
+		Enumeration<Object> enums = props.keys();
+		while (enums.hasMoreElements()) {
+			String propKey = (String) enums.nextElement();
+			// key=武器名, attackPoint => 武器名(英語) = 武器名(日本語), 攻撃力(attackPoint)
+			String line = (String) props.get(propKey);
+			String[] vals = line.split(",");
+			try {
+			allWepons.put(propKey, new Wepons(vals[0], Integer.parseInt(vals[1])));
+			} catch(NumberFormatException e) {
+				e.printStackTrace();
+				System.out.println("wepons.propertiesの値が不適切です。[" + propKey + ":" + vals[0] + " / " + vals[1]);
 			}
 		}
 	}

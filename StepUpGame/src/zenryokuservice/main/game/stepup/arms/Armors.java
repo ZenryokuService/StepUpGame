@@ -199,31 +199,52 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package zenryokuservice.main.game;
-import zenryokuservice.main.game.stepup.TextRpgGame;
+ */
+package zenryokuservice.main.game.stepup.arms;
 
 /**
  * @author takunoji
  *
- * 2020/06/11
+ * 2020/06/13
  */
-public class GameMain {
-	public static void main(String[] args) {
-		// ゲームクラス
-		TextRpgGame main = new TextRpgGame();
-		// 初期処理
-		main.init();
-		while (true) {
-			main.viewStatus();
-			// 入力受付
-			String in = main.input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (main.update(in) && main.render()) {
-				break;
-			}
-		}
+public class Armors {
+	/** 防具名 */
+	private String armorName;
+	/** 防御力 */
+	private int deffencePoint;
+
+	public Armors(String name, int deffencePoint) {
+		this.armorName = name;
+		try {
+			this.deffencePoint = deffencePoint;
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+			// エラー時はポイント0
+			this.deffencePoint = 0;
+		}	}
+
+	/**
+	 * @return the armorName
+	 */
+	public String getArmorName() {
+		return armorName;
+	}
+	/**
+	 * @param armorName the armorName to set
+	 */
+	public void setArmorName(String armorName) {
+		this.armorName = armorName;
+	}
+	/**
+	 * @return the deffemce
+	 */
+	public int getDeffencePoint() {
+		return deffencePoint;
+	}
+	/**
+	 * @param deffemce the deffemce to set
+	 */
+	public void setDeffemce(int deffemce) {
+		this.deffencePoint = deffemce;
 	}
 }
