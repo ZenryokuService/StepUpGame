@@ -199,149 +199,37 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package zenryokuservice.main.game.stepup;
+ */
+package zenryokuservice.main.game.util;
 
 import java.util.Scanner;
-
-import zenryokuservice.main.game.stepup.charactors.Monster;
-import zenryokuservice.main.game.stepup.charactors.Player;
-import zenryokuservice.main.game.util.CheckerUtils;
-import zenryokuservice.main.game.util.PrintUtils;
 
 /**
  * @author takunoji
  *
- * 2020/06/11
+ * 2020/06/16
  */
-public class TextRpgGame extends Thread {
-	/** コマンド：たたかう */
-	private static final String ATTACK = "1";
-	/** コマンド：ぼうぎょ */
-	private static final String DEFFENCE = "2";
-	/** コマンド：にげる */
-	private static final String ESCAPE = "3";
-
-	/** 入力部品 */
-	private Scanner scan;
-	/** プレーヤー */
-	private Player player;
-	/** モンスター */
-	private Monster monster;
+public class PrintUtils {
+	/** デフォルトスピード */
+	private static final long DEFAULT_SPEED = 50;
 
 	/**
-	 * Threadクラスのstart()をオーバーライド。
-	 * １つのスレッドとしてMainスレッドとは別に動く。
+	 * メッセージをデフォルトスピードで標準出力に出力する。
+	 * 
+	 * @param message 標準出力に出力する文字列
 	 */
-	public void start() {
-		try {
-			gameLoop();
-		} catch(InterruptedException e) {
-			e.printStackTrace();
-			System.exit(-1);
+	public static void print(String message) throws InterruptedException{
+		StringBuilder build = new StringBuilder(message);
+		// 出力するときに、処理をストップする方法を考える
+		for (int i = 0; i < message.length(); i++) {
+			System.out.print(build.substring(i, i + 1));
+			Thread.sleep(DEFAULT_SPEED);
 		}
+		System.out.println("");
 	}
 
-	public void gameLoop() throws InterruptedException {
-		// 初期処理
-		init();
-		while (true) {
-			viewStatus();
-			// 入力受付
-			String in = input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (update(in) && render()) {
-				break;
-			}
-		}
-	}
-
-	/** 初期表示を行う */
-	public void init() throws InterruptedException {
-		player = new Player(20, 10, 1, "プレーヤー");
-		monster = new Monster(10, 5, 1, "たくのじ");
-		
-		PrintUtils.print(monster.getName() + "が現れた！");
-		monster.say();
-		scan = new Scanner(System.in);
-	}
-
-	/** 入力処理 */
-	public String input() {
-		return scan.next();
-	}
-
-	/** 入力後に行う処理 */
-	public boolean update(String input) throws InterruptedException {
-		if (CheckerUtils.isNumber(input, CheckerUtils.REG_1_TO_3) == false) {
-			System.out.println("1-3を入力してください。: " + input);
-			return false;
-		}
-		// コマンド実行後の計算
-		if (ATTACK.equals(input)) {
-			// モンスターへダメージ
-			int monsterDamage = this.calcAttack(player.attack(), monster.deffence(), player.getName(), monster.getName());
-			int monsterResult = monster.getHp() + monsterDamage;
-			monster.setHp(monsterResult);
-		}
-		if (monster.getHp() > 0) {
-			// モンスターの攻撃
-			int monsterAttack = this.calcAttack(player.deffence(), monster.attack(), monster.getName(), player.getName());
-			int playerResult = player.getHp() + monsterAttack;
-			player.setHp(playerResult);
-		}
-		
-		return true;
-	}
-
-	/** 
-	 * 画面を更新する。
-	 * @return ture: 終了 false: 続く
-	 */
-	public boolean render() throws InterruptedException {
-		if (monster.getHp() > 0) {
-			monster.say();
-		} else if (player.getHp() <= 0 ) {
-			PrintUtils.print(player.getName() + "はたおれてしまった。");
-			return true;
-		} else {
-			monster.lastMessage();
-			PrintUtils.print(monster.getName() + "をやっつけた。");
-			return true;
-		}
-		return false;
-	}
-
-	public void viewStatus() {
-		viewStatus(player.getHp(), player.getMp(), monster.getHp(), monster.getMp());
-	}
-
-	private void viewStatus(int playerHp, int playerMp, int monsterHp, int monsterMp) {
-		String line1 = "たたかう: 1   プレーヤー   たくのじ";
-		String line2 = "ぼうぎょ: 2   HP: A1　    HP: B1";
-		String line3 = "にげる　: 3   MP: A2　    MP: B2";
-		// 値を入れ替える
-		line2 = line2.replace("A1", String.format("%02d", playerHp)).replace("B1", String.format("%02d", monsterHp));
-		line3 = line3.replace("A2", String.format("%02d", playerHp)).replace("B2", String.format("%02d", monsterHp));
-
-		System.out.println("================================");
-		System.out.println(line1);
-		System.out.println(line2);
-		System.out.println(line3);
-		System.out.println("================================");
-	}
-
-	private int calcAttack(int attack, int deffence, String attackerName, String deffenderName) throws InterruptedException {
-		int result = 0;
-		PrintUtils.print(attackerName + "のこうげき");
-		if (attack > deffence) {
-			result = deffence - attack;
-			PrintUtils.print(deffenderName + "へ" + Math.abs(result) + "のダメージ!");
-		} else {
-			PrintUtils.print(deffenderName + "は、こうげきをはじいた!");
-		}
-		return attack > deffence ? deffence - attack : 0;
+	public static void printStop(Scanner scan) {
+		System.out.println("▼");
+		scan.next();
 	}
 }

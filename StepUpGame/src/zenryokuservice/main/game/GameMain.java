@@ -200,6 +200,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */package zenryokuservice.main.game;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import zenryokuservice.main.game.stepup.TextRpgGame;
 
 /**
@@ -208,22 +210,10 @@ import zenryokuservice.main.game.stepup.TextRpgGame;
  * 2020/06/11
  */
 public class GameMain {
+	
 	public static void main(String[] args) {
 		// ゲームクラス
 		TextRpgGame main = new TextRpgGame();
-		// 初期処理
-		main.init();
-		while (true) {
-			main.viewStatus();
-			// 入力受付
-			String in = main.input();
-			if ("bye".equals(in)) {
-				break;
-			}
-			// データの更新
-			if (main.update(in) && main.render()) {
-				break;
-			}
-		}
+		main.start();
 	}
 }

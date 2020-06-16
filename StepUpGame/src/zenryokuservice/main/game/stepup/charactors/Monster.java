@@ -203,6 +203,7 @@
 
 import zenryokuservice.main.game.stepup.arms.Armors;
 import zenryokuservice.main.game.stepup.arms.Wepons;
+import zenryokuservice.main.game.util.PrintUtils;
 
 /**
  * モンスターを表現するクラス。
@@ -227,12 +228,12 @@ public class Monster extends Charactor {
 		this.armor = new Armors("自分の体", 3);
 	}
 
-	public void say() {
-		System.out.println(name + ": 「わるいごはいねがぁ？」");
+	public void say() throws InterruptedException {
+		PrintUtils.print(name + ": 「わるいごはいねがぁ？」");
 	}
 
-	public void lastMessage() {
-		System.out.println(name + ": 「なかなかに、なかなか。。。」");
+	public void lastMessage() throws InterruptedException {
+		PrintUtils.print(name + ": 「なかなかに、なかなか。。。」");
 	}
 
 	@Override
