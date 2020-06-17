@@ -200,7 +200,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */package zenryokuservice.main.game;
+import java.net.URL;
+
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import zenryokuservice.main.game.stepup.TextRpgGame;
 
@@ -209,11 +224,50 @@ import zenryokuservice.main.game.stepup.TextRpgGame;
  *
  * 2020/06/11
  */
-public class GameMain {
-	
+public class GameMain extends Application {
+	private static final int WIN_WIDTH = 800;
+	private static final int WIN_HEIGHT = 800;
+
 	public static void main(String[] args) {
+		launch(args);
 		// ゲームクラス
-		TextRpgGame main = new TextRpgGame();
-		main.start();
+//		TextRpgGame main = new TextRpgGame();
+//		main.start();
+	}
+
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setWidth(WIN_WIDTH);
+		primaryStage.setHeight(WIN_HEIGHT);
+		// ルートコンテナ
+		BorderPane root = new BorderPane();
+
+		GridPane grid = new GridPane();
+		grid.getColumnConstraints().add(new ColumnConstraints(40));
+		for(int y = 0; y < 20; y++) {
+			for (int x = 0; x < 20; x++) {
+				grid.add(getGrassTile(), x, y);
+			}
+		}
+		root.setCenter(grid);
+		Label textLabel = new Label();
+		textLabel.setBackground(new Background(new BackgroundFill( Color.RED , new CornerRadii(5) , Insets.EMPTY )));
+		root.setBottom(textLabel);
+
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
+	private Label getGrassTile() {
+		// マップの草原用、イメージ(40x40)
+		URL url = getClass().getResource("/map/Grass.png");
+		ImageView image = new ImageView(new Image(url.toExternalForm()));
+		Label tile = new Label();
+		tile.setGraphic(image);
+		return tile;
 	}
 }
